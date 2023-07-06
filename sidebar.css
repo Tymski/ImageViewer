@@ -1,0 +1,51 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -300px;
+  width: 300px;
+  height: 100%;
+  background-color: #222222;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  transition: left 0.3s ease;
+  color: white;
+}
+
+.sidebar.show {
+  left: 0;
+}
+
+.slider-container {
+  padding: 20px;
+}
+
+.slider-container label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.slider {
+  width: 100%;
+}
+
+.filename-toggle-container {
+  padding: 20px;
+  text-align: center;
+}
+
+#filename-toggle-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+#filename-toggle-btn:hover {
+  opacity: 0.8;
+}

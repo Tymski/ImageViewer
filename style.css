@@ -1,0 +1,31 @@
+.card {
+    position: relative;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    margin: 0;
+    padding: 10px;
+}
+
+body {
+    line-height: 0;
+    background-color: #191919;
+}
+
+.hidden {
+    visibility: hidden;
+    display: none;
+}
+
+.card-text{
+    font-size: 24px;
+    color: whitesmoke;   
+}
+
+.card-text {
+    position: absolute;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-weight: bold;
+  }

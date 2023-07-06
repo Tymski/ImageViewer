@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Viewer</title>
+    <script defer src="script.js"></script>
+    <script defer src="sidebar.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="sidebar.css">
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <div class="slider-container">
+            <label for="scale-slider">Card Size:</label>
+            <input type="range" min="50" max="1500" value="768" class="slider" id="scale-slider">
+        </div>
+        <div class="slider-container">
+            <label for="padding-slider">Padding:</label>
+            <input type="range" min="0" max="50" value="5" class="slider" id="padding-slider">
+        </div>
+        <div class="filename-toggle-container">
+            <button id="filename-toggle-btn">Toggle Filenames</button>
+        </div>
+    </div>
+</body>
+
+</html>
