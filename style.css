@@ -1,10 +1,14 @@
+:root {
+    --card-padding: 10px;
+}
+
 .card {
     position: relative;
     top: 0;
     left: 0;
     display: inline-block;
     margin: 0;
-    padding: 10px;
+    padding: var(--card-padding);
 }
 
 body {
@@ -17,9 +21,14 @@ body {
     display: none;
 }
 
-.card-text{
+.hide-filenames .card-text {
+    visibility: hidden;
+    display: none;
+}
+
+.card-text {
     font-size: 24px;
-    color: whitesmoke;   
+    color: whitesmoke;
 }
 
 .card-text {
@@ -28,4 +37,8 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     font-weight: bold;
-  }
+}
+
+.point-filter {
+    image-rendering: pixelated;
+}

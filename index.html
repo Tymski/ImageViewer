@@ -12,8 +12,7 @@
     <link rel="stylesheet" href="sidebar.css">
 </head>
 
-<body>
-
+<body class="hide-filenames">
     <div class="sidebar">
         <div class="slider-container">
             <label for="scale-slider">Card Size:</label>
@@ -23,8 +22,13 @@
             <label for="padding-slider">Padding:</label>
             <input type="range" min="0" max="50" value="5" class="slider" id="padding-slider">
         </div>
-        <div class="filename-toggle-container">
-            <button id="filename-toggle-btn">Toggle Filenames</button>
+        <div class="center-text">
+            <input type="checkbox" id="filenames" onchange="toggleFilenames(this)">
+            <label for="filenames">Show Filenames</label>
+        </div>
+        <div class="center-text">
+            <input type="checkbox" id="point-filter" onchange="togglePointFilter(this)">
+            <label for="point-filter">Point Filtering</label>
         </div>
     </div>
 </body>

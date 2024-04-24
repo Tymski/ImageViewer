@@ -32,7 +32,7 @@ function createDOMElements(imageURL, fileName) {
     var div = `
         <div class="card">
             <img src="${imageURL}" class="card-picture" />
-            <p class="card-text hidden">${fileName}</p>
+            <p class="card-text">${fileName}</p>
         </div>
     `;
     document.body.appendChild(htmlToElement(div));
