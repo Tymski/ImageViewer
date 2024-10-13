@@ -7,8 +7,9 @@ const root = document.querySelector(':root');
 
 // Add event listener to toggle sidebar visibility
 document.addEventListener('keydown', function (event) {
-    if (event.key === 'q') {
+    if (event.key === 'q' || event.key === 'Tab' || event.key === '`') {
         sidebar.classList.toggle('show');
+        event.preventDefault(); // Prevent default Tab behavior
     }
 });
 
@@ -31,4 +32,8 @@ function toggleFilenames(checkbox) {
 
 function togglePointFilter(checkbox) {
     body.classList.toggle('point-filter', checkbox.checked);
+}
+
+function changeBackground(color) {
+   document.body.style.backgroundColor = color
 }

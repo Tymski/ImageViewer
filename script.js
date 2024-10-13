@@ -6,6 +6,7 @@ document.addEventListener('mouseover', mouseOverHandler, false) // new event lis
 document.addEventListener('keydown', keyDownHandler, false) // new event listener
 
 function dropHandler(ev) {
+    if (ev.target.closest('.sidebar')) return;
     console.log('File(s) dropped');
     ev.preventDefault();
     if (ev.dataTransfer.items) {
@@ -24,6 +25,7 @@ function dropHandler(ev) {
 }
 
 function dragOverHandler(ev) {
+    if (ev.target.closest('.sidebar')) return;
     console.log('File(s) in drop zone');
     ev.preventDefault();
 }
@@ -46,11 +48,7 @@ function htmlToElement(html) {
 }
 
 function mouseOverHandler(ev) {
-    var target = ev.target;
-    while (target !== null && !target.classList.contains('card')) {
-        target = target.parentNode;
-    }
-    currentCard = target;
+    currentCard = ev.target.closest('.card');
 }
 
 function keyDownHandler(ev) {
@@ -62,3 +60,11 @@ function keyDownHandler(ev) {
 function deleteCurrentCard() {
     currentCard.parentNode.removeChild(currentCard);
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('sidebar-placeholder').innerHTML = data;
+        });
+});

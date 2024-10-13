@@ -14,23 +14,35 @@
 
 <body class="hide-filenames">
     <div class="sidebar">
-        <div class="slider-container">
+        <div class="slider-container setting">
             <label for="scale-slider">Card Size:</label>
             <input type="range" min="50" max="1500" value="768" class="slider" id="scale-slider">
         </div>
-        <div class="slider-container">
+        <div class="slider-container setting">
             <label for="padding-slider">Padding:</label>
             <input type="range" min="0" max="50" value="5" class="slider" id="padding-slider">
         </div>
-        <div class="center-text">
+        <div class="checkbox-container setting">
             <input type="checkbox" id="filenames" onchange="toggleFilenames(this)">
             <label for="filenames">Show Filenames</label>
         </div>
-        <div class="center-text">
+        <div class="checkbox-container setting">
             <input type="checkbox" id="point-filter" onchange="togglePointFilter(this)">
             <label for="point-filter">Point Filtering</label>
         </div>
+        <div></div>
+        <div class="setting">
+            <label>Background Color:</label>
+            <div class="theme-squares">
+                <div class="theme-square" onclick="changeBackground('#ffffff')" style="background-color: #ffffff;"></div>
+                <div class="theme-square" onclick="changeBackground('#999999')" style="background-color: #999999;"></div>
+                <div class="theme-square" onclick="changeBackground('#333333')" style="background-color: #333333;"></div>
+                <div class="theme-square" onclick="changeBackground('#191919')" style="background-color: #191919;"></div>
+                <div class="theme-square" onclick="changeBackground('#000000')" style="background-color: #000000;"></div>
+            </div>
+        </div>
     </div>
+    <main></main>
 </body>
 
 </html>

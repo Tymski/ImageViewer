@@ -42,3 +42,8 @@ body {
 .point-filter {
     image-rendering: pixelated;
 }
+
+main{
+    min-width: 100%;
+    min-height: 100%;
+}
