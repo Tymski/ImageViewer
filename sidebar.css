@@ -1,7 +1,7 @@
 .sidebar {
   position: fixed;
   top: 0;
-  left: -300px;
+  left: -310px;
   width: 300px;
   height: 100%;
   background-color: #222222;
@@ -9,11 +9,10 @@
   z-index: 999;
   transition: left 0.3s ease;
   color: white;
-  line-height: 1;
-}
 
-.sidebar.show {
-  left: 0;
+  &.show {
+    left: 0;
+  }
 }
 
 .slider-container label {
@@ -48,18 +47,19 @@
 }
 
 .setting {
-  --border-setting: 2px solid #313131;
   padding: 10px 20px;
-  border: var(--border-setting);
-  border-bottom: none;
-}
+  border: 2px solid #505050;
 
-.setting:last-child {
-  border-bottom: var(--border-setting);
-}
+  +.setting {
+    margin-top: -2px;
+  }
 
-.setting:hover {
-  background-color: #ffffff0e;
+  &:hover {
+    background-color: #ffffff0e;
+    outline: 2px solid rgba(255, 255, 255, 0.377);
+    outline-offset: -2px;
+    z-index: 1;
+  }
 }
 
 .sidebar input[type="checkbox"] {

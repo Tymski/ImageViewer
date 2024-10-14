@@ -9,11 +9,14 @@
     display: inline-block;
     margin: 0;
     padding: var(--card-padding);
+    line-height: 0;
 }
 
 body {
-    line-height: 0;
     background-color: #191919;
+    font-family: Helvetica, Arial, sans-serif;
+    text-shadow: 1px 1px 2px rgb(0, 0, 0);
+    letter-spacing: .03rem;
 }
 
 .hidden {
@@ -43,7 +46,26 @@ body {
     image-rendering: pixelated;
 }
 
-main{
+main {
     min-width: 100%;
     min-height: 100%;
+}
+
+#info-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgb(196, 196, 196);
+    background-color: rgba(55, 55, 55, 0.9);
+    padding: 10px 40px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px -6px rgba(0, 0, 0, 0.1);
+    max-width: 80%;
+    color: rgb(255, 242, 225);
+    text-align: center;
+    line-height: 1.5;
+    h2{
+        color: rgb(255, 249, 241);
+    }
 }

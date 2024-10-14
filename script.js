@@ -7,6 +7,7 @@ document.addEventListener('keydown', keyDownHandler, false) // new event listene
 
 function dropHandler(ev) {
     if (ev.target.closest('.sidebar')) return;
+    removeInfoBox();
     console.log('File(s) dropped');
     ev.preventDefault();
     if (ev.dataTransfer.items) {
@@ -61,10 +62,8 @@ function deleteCurrentCard() {
     currentCard.parentNode.removeChild(currentCard);
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('sidebar.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('sidebar-placeholder').innerHTML = data;
-        });
-});
+function removeInfoBox() {
+    let infoBox = document.querySelector("#info-box");
+    if (!infoBox) return;
+    infoBox.remove();
+}

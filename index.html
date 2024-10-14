@@ -15,7 +15,7 @@
 <body class="hide-filenames">
     <div class="sidebar">
         <div class="slider-container setting">
-            <label for="scale-slider">Card Size:</label>
+            <label for="scale-slider">Image Size:</label>
             <input type="range" min="50" max="1500" value="768" class="slider" id="scale-slider">
         </div>
         <div class="slider-container setting">
@@ -30,7 +30,6 @@
             <input type="checkbox" id="point-filter" onchange="togglePointFilter(this)">
             <label for="point-filter">Point Filtering</label>
         </div>
-        <div></div>
         <div class="setting">
             <label>Background Color:</label>
             <div class="theme-squares">
@@ -42,7 +41,16 @@
             </div>
         </div>
     </div>
-    <main></main>
+    <main>
+        <div id="info-box">
+            <h2>View your images</h2>
+            Drag & Drop your images here to view them in a grid.
+            <br><br>
+            <hr>
+            <h2>Adjust settings</h2>
+            Use [Tab] to open settings menu.
+        </div>
+    </main>
 </body>
 
 </html>
