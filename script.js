@@ -1,5 +1,7 @@
 var currentCard = null; // global variable to store currently hovered card
 
+const main = document.querySelector('main');
+
 document.addEventListener('dragover', dragOverHandler, false)
 document.addEventListener('drop', dropHandler, false)
 document.addEventListener('mouseover', mouseOverHandler, false) // new event listener
@@ -38,7 +40,7 @@ function createDOMElements(imageURL, fileName) {
             <p class="card-text">${fileName}</p>
         </div>
     `;
-    document.body.appendChild(htmlToElement(div));
+    main.appendChild(htmlToElement(div));
 }
 
 function htmlToElement(html) {
