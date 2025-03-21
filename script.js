@@ -7,23 +7,51 @@ document.addEventListener('drop', dropHandler, false)
 document.addEventListener('mouseover', mouseOverHandler, false) // new event listener
 document.addEventListener('keydown', keyDownHandler, false) // new event listener
 
-function dropHandler(ev) {
+async function dropHandler(ev) {
     if (ev.target.closest('.sidebar')) return;
     removeInfoBox();
     console.log('File(s) dropped');
     ev.preventDefault();
+
+    // Handle items from DataTransfer
     if (ev.dataTransfer.items) {
-        for (var i = 0; i < ev.dataTransfer.items.length; i++) {
-            if (ev.dataTransfer.items[i].kind === 'file') {
-                var file = ev.dataTransfer.items[i].getAsFile();
-                console.log('... file[' + i + '].name = ' + file.name);
-                handleFile(file);
-            }
-        }
+        const items = Array.from(ev.dataTransfer.items);
+        const promises = items.map(async item => {
+            if (item.webkitGetAsEntry) {
+                const entry = item.webkitGetAsEntry();
+                if (entry.isDirectory) { await handleDirectory(entry); } else if (entry.isFile) { await handleFileEntry(entry); }
+            } else if (item.kind === 'file') { handleFile(item.getAsFile()); }
+        });
+        await Promise.all(promises);
     } else {
-        for (var i = 0; i < ev.dataTransfer.files.length; i++) {
-            handleFile(ev.dataTransfer.files[i]);
+        // Handle files directly (fallback)
+        Array.from(ev.dataTransfer.files).forEach(file => { handleFile(file); });
+    }
+}
+
+async function handleDirectory(directoryEntry) {
+    const dirReader = directoryEntry.createReader();
+    await readDirectory(dirReader);
+}
+
+async function readDirectory(dirReader) {
+    try {
+        const entries = await new Promise((resolve, reject) => { dirReader.readEntries(resolve, reject); });
+        for (let entry of entries) {
+            if (entry.isDirectory) { await handleDirectory(entry); } else { await handleFileEntry(entry); }
         }
+        if (entries.length > 0) { await readDirectory(dirReader); }
+    } catch (error) {
+        console.error('Error reading directory:', error);
+    }
+}
+
+async function handleFileEntry(fileEntry) {
+    try {
+        const file = await new Promise((resolve, reject) => { fileEntry.file(resolve, reject); });
+        handleFile(file);
+    } catch (error) {
+        console.error('Error handling file entry:', error);
     }
 }
 
