@@ -35,8 +35,8 @@ function handleFile(file) {
 
 function getFileType(fileName) {
     const extension = fileName.toLowerCase().split('.').pop();
-    if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(extension)) return 'image';
-    if (['mp4', 'webm', 'ogg', 'mkv'].includes(extension)) return 'video';
+    if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'tiff', 'tif', 'bmp', 'svg', 'heic', 'heif'].includes(extension)) return 'image';
+    if (['mp4', 'webm', 'ogg', 'mkv', 'avi', 'mov', 'flv', 'wmv'].includes(extension)) return 'video';
     return 'unsupported';
 }
 
@@ -47,7 +47,7 @@ function dragOverHandler(ev) {
 }
 
 function createDOMElements(fileURL, fileName, fileType) {
-    const mediaElement = fileType === 'image' 
+    const mediaElement = fileType === 'image'
         ? `<img src="${fileURL}" class="card-picture" />`
         : `<video src="${fileURL}" class="card-picture" loop autoplay muted controls disablePictureInPicture></video>`;
 

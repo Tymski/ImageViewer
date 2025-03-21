@@ -4,7 +4,8 @@ const pixelSizeSlider = document.getElementById('scale-slider');
 const pixelSliderValue = document.getElementById('scale-value');
 const imageScaleSlider = document.getElementById('image-scale-slider');
 const imageScaleValue = document.getElementById('image-scale-value');
-const padding = document.getElementById('padding-slider');
+const paddingSlider = document.getElementById('padding-slider');
+const paddingValue = document.getElementById('padding-value');
 const body = document.querySelector('body');
 const root = document.querySelector(':root');
 const switchSidesBtn = document.getElementById('switch-sides');
@@ -12,8 +13,9 @@ const switchSidesBtn = document.getElementById('switch-sides');
 document.addEventListener('keydown', function (event) {
     if (event.key === 'q' || event.key === 'Tab' || event.key === '`') {
         sidebar.classList.toggle('show');
-        event.preventDefault(); // Prevent default Tab behavior
+        event.preventDefault();
     }
+    
 });
 
 const numberSpans = document.querySelectorAll("span.number");
@@ -54,11 +56,17 @@ function changeImageScale(scale) {
     imageScaleValue.innerText = scale;
 }
 
-padding.addEventListener('input', function () {
-    root.style.setProperty('--card-padding', this.value + 'px');
-});
+paddingSlider.addEventListener('input', function () { changePadding(this.value) });
+paddingValue.addEventListener('blur', function (event) { changePadding(event.target.innerText) });
+function changePadding(value) {
+    value = parseFloat(value);
+    if (isNaN(value)) return;
+    root.style.setProperty('--card-padding', value + 'px');
+    paddingSlider.value = value;
+    paddingValue.innerText = value;
+}
 
-switchSidesBtn.addEventListener('click', function() {
+switchSidesBtn.addEventListener('click', function () {
     sidebar.classList.toggle('left');
     sidebar.classList.toggle('right');
 });
