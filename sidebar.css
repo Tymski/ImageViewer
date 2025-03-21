@@ -80,6 +80,11 @@
 
 .checkbox-container label {
   align-content: center;
+  cursor: pointer;
+}
+
+.sidebar button, .sidebar input {
+  cursor: pointer;
 }
 
 .checkbox-container {

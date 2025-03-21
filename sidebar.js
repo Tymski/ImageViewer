@@ -9,13 +9,15 @@ const paddingValue = document.getElementById('padding-value');
 const body = document.querySelector('body');
 const root = document.querySelector(':root');
 const switchSidesBtn = document.getElementById('switch-sides');
+const filenamesCheckbox = document.getElementById('filenames');
 
 document.addEventListener('keydown', function (event) {
     if (event.key === 'q' || event.key === 'Tab' || event.key === '`') {
         sidebar.classList.toggle('show');
         event.preventDefault();
+    } else if (event.key === 'n') {
+        filenamesCheckbox.click();
     }
-    
 });
 
 const numberSpans = document.querySelectorAll("span.number");
