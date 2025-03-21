@@ -1,17 +1,30 @@
 .sidebar {
   position: fixed;
   top: 0;
-  left: -340px;
   width: 330px;
   height: 100%;
   background-color: #222222;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   z-index: 999;
-  transition: left 0.2s ease;
+  transition: left 0.2s ease, right 0.2s ease;
   color: white;
+}
 
+.sidebar.left {
+  left: -340px;
+  right: auto;
+  
   &.show {
     left: 0;
+  }
+}
+
+.sidebar.right {
+  right: -340px;
+  left: auto;
+
+  &.show {
+    right: 0;
   }
 }
 

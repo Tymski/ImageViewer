@@ -7,6 +7,7 @@ const imageScaleValue = document.getElementById('image-scale-value');
 const padding = document.getElementById('padding-slider');
 const body = document.querySelector('body');
 const root = document.querySelector(':root');
+const switchSidesBtn = document.getElementById('switch-sides');
 
 document.addEventListener('keydown', function (event) {
     if (event.key === 'q' || event.key === 'Tab' || event.key === '`') {
@@ -55,6 +56,11 @@ function changeImageScale(scale) {
 
 padding.addEventListener('input', function () {
     root.style.setProperty('--card-padding', this.value + 'px');
+});
+
+switchSidesBtn.addEventListener('click', function() {
+    sidebar.classList.toggle('left');
+    sidebar.classList.toggle('right');
 });
 
 function toggleFilenames(checkbox) {

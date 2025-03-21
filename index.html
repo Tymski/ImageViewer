@@ -13,7 +13,7 @@
 </head>
 
 <body class="hide-filenames">
-    <div class="sidebar">
+    <div class="sidebar left">
         <div class="slider-container setting">
             <label for="image-scale-slider">Image Scale:</label> <span class="number" id="image-scale-value" contenteditable="true">1</span>x
             <input type="range" min="0.1" max="20" value="1" class="slider" step="0.01" id="image-scale-slider">
@@ -47,6 +47,9 @@
                 <div class="theme-square" onclick="changeBackground('#191919')" style="background-color: #191919;"></div>
                 <div class="theme-square" onclick="changeBackground('#000000')" style="background-color: #000000;"></div>
             </div>
+        </div>
+        <div class="setting">
+            <button id="switch-sides" class="switch-sides-btn">Switch Sides</button>
         </div>
     </div>
     <main>
