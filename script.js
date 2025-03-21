@@ -47,9 +47,10 @@ function dragOverHandler(ev) {
 }
 
 function createDOMElements(fileURL, fileName, fileType) {
+    const autoplayEnabled = document.getElementById('autoplay').checked;
     const mediaElement = fileType === 'image'
         ? `<img src="${fileURL}" class="card-picture" />`
-        : `<video src="${fileURL}" class="card-picture" loop autoplay muted controls disablePictureInPicture></video>`;
+        : `<video src="${fileURL}" class="card-picture" loop controls disablePictureInPicture muted ${autoplayEnabled ? 'autoplay' : ''}></video>`;
 
     var div = `
         <div class="card">

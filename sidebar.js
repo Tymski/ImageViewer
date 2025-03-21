@@ -10,6 +10,7 @@ const body = document.querySelector('body');
 const root = document.querySelector(':root');
 const switchSidesBtn = document.getElementById('switch-sides');
 const filenamesCheckbox = document.getElementById('filenames');
+const autoplayCheckbox = document.getElementById('autoplay');
 
 document.addEventListener('keydown', function (event) {
     if (event.key === 'q' || event.key === 'Tab' || event.key === '`') {
@@ -88,4 +89,15 @@ function changeBackground(color) {
 function toggleCenterImages(checkbox) {
     body.classList.toggle('center-content', checkbox.checked);
     main.classList.toggle('center-text', checkbox.checked);
+}
+
+function toggleAutoplay(checkbox) {
+    const videos = document.querySelectorAll('video');
+    videos.forEach(video => {
+        if (checkbox.checked) {
+            video.play();
+        } else {
+            video.pause();
+        }
+    });
 }
