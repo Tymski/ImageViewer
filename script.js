@@ -17,14 +17,27 @@ function dropHandler(ev) {
             if (ev.dataTransfer.items[i].kind === 'file') {
                 var file = ev.dataTransfer.items[i].getAsFile();
                 console.log('... file[' + i + '].name = ' + file.name);
-                createDOMElements(URL.createObjectURL(ev.dataTransfer.files[i]), file.name);
+                handleFile(file);
             }
         }
     } else {
         for (var i = 0; i < ev.dataTransfer.files.length; i++) {
-            console.log('... file[' + i + '].name = ' + ev.dataTransfer.files[i].name);
+            handleFile(ev.dataTransfer.files[i]);
         }
     }
+}
+
+function handleFile(file) {
+    const fileType = getFileType(file.name);
+    if (fileType === 'unsupported') return;
+    createDOMElements(URL.createObjectURL(file), file.name, fileType);
+}
+
+function getFileType(fileName) {
+    const extension = fileName.toLowerCase().split('.').pop();
+    if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(extension)) return 'image';
+    if (['mp4', 'webm', 'ogg', 'mkv'].includes(extension)) return 'video';
+    return 'unsupported';
 }
 
 function dragOverHandler(ev) {
@@ -33,10 +46,14 @@ function dragOverHandler(ev) {
     ev.preventDefault();
 }
 
-function createDOMElements(imageURL, fileName) {
+function createDOMElements(fileURL, fileName, fileType) {
+    const mediaElement = fileType === 'image' 
+        ? `<img src="${fileURL}" class="card-picture" />`
+        : `<video src="${fileURL}" class="card-picture" loop autoplay muted controls disablePictureInPicture></video>`;
+
     var div = `
         <div class="card">
-            <img src="${imageURL}" class="card-picture" />
+            ${mediaElement}
             <p class="card-text">${fileName}</p>
         </div>
     `;
@@ -45,7 +62,7 @@ function createDOMElements(imageURL, fileName) {
 
 function htmlToElement(html) {
     var template = document.createElement('template');
-    html = html.trim(); // Never return a text node of whitespace as the result
+    html = html.trim();
     template.innerHTML = html;
     return template.content.firstChild;
 }
