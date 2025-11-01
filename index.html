@@ -7,13 +7,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Viewer</title>
     <script defer src="script.js"></script>
+    <script defer src="db.js"></script>
     <script defer src="sidebar.js"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="sidebar.css">
 </head>
 
 <body class="hide-filenames">
-    <div class="sidebar left">
+    <!-- Menu Toggle Button (moved outside the sidebar so it's visible when the menu is closed) -->
+    <button id="menu-toggle" class="menu-toggle-btn" title="Toggle Menu" aria-label="Toggle Menu">&gt;</button>
+    <div class="sidebar left" id="sidebar">
+        <!-- Hide Menu Button Option -->
+        <div class="checkbox-container setting">
+            <input type="checkbox" id="hide-menu-btn" onchange="toggleMenuButton(this)">
+            <label for="hide-menu-btn">Hide Menu Button</label>
+        </div>
+        <!-- Save settings toggle: when enabled, settings are stored in IndexedDB -->
+        <div class="checkbox-container setting">
+            <input type="checkbox" id="save-settings-toggle" aria-label="Save Settings">
+            <label for="save-settings-toggle">Save Settings</label>
+        </div>
         <div class="slider-container setting">
             <label for="image-scale-slider">Image Scale:</label> <span class="number" id="image-scale-value" contenteditable="true">1</span>x
             <input type="range" min="0.1" max="20" value="1" class="slider" step="0.01" id="image-scale-slider">
@@ -26,9 +39,20 @@
             <label for="padding-slider">Padding:</label> <span class="number" id="padding-value" contenteditable="true">10</span>px
             <input type="range" min="0" max="50" value="10" class="slider" id="padding-slider">
         </div>
+        <div class="slider-container setting">
+            <label for="filename-size-slider">Filename Size:</label> <span class="number" id="filename-size-value" contenteditable="true">24</span>px
+            <input type="range" min="5" max="72" value="24" class="slider" id="filename-size-slider">
+        </div>
         <div class="checkbox-container setting">
             <input type="checkbox" id="filenames" onchange="toggleFilenames(this)">
             <label for="filenames">Show File<u>n</u>ames</label>
+        </div>
+        <div class="checkbox-container setting" id="filename-below-setting">
+            <input type="checkbox" id="filename-below"><label for="filename-below">Display filenames below</label>
+        </div>
+        <div class="checkbox-container setting">
+            <input type="checkbox" id="sidebar-static" onchange="toggleSidebarStatic(this)">
+            <label for="sidebar-static">Sidebar occupies space</label>
         </div>
         <div class="checkbox-container setting">
             <input type="checkbox" id="point-filter" onchange="togglePointFilter(this)">
@@ -39,11 +63,15 @@
             <label for="center-images">Center Images</label>
         </div>
         <div class="checkbox-container setting">
-            <input type="checkbox" id="autoplay" onchange="toggleAutoplay(this)" checked>
+            <input type="checkbox" id="autoplay" onchange="toggleAutoplay(this)">
             <label for="autoplay">Autoplay Videos</label>
         </div>
         <div class="setting">
+            <button id="stop-videos-btn" class="stop-videos-btn">Stop All Videos</button>
+        </div>
+        <div class="setting">
             <label>Background Color:</label>
+            <input id="background-hex" class="background-hex" value="#191919" maxlength="7" />
             <div class="theme-squares">
                 <div class="theme-square" onclick="changeBackground('#ffffff')" style="background-color: #ffffff;"></div>
                 <div class="theme-square" onclick="changeBackground('#999999')" style="background-color: #999999;"></div>
@@ -55,17 +83,25 @@
         <div class="setting">
             <button id="switch-sides" class="switch-sides-btn">Switch Sides</button>
         </div>
+        <div class="setting">
+            <button id="open-file-btn" class="open-file-btn">Open Files/Folders</button>
+        </div>
     </div>
     <main>
         <div id="info-box">
-            <h2>View your images</h2>
-            Drag & Drop your images here to view them in a grid.
-            <br><br>
-            <hr>
-            <h2>Adjust settings</h2>
-            Use [Tab] to open settings menu.
+            <div id="info-box-top">
+                <h2>View your images</h2>
+                Drag & Drop your media files here to view them in a grid.
+            </div>
+            <div id="info-box-bottom">
+                <h2>Adjust settings</h2>
+                Use [Tab] to open settings menu.
+            </div>
         </div>
+        <!-- Wrapper for cards to allow using font-size:0 without touching the main scrolling container -->
+        <div id="cards"></div>
     </main>
+    <input type="file" id="file-input" style="display:none" multiple webkitdirectory directory>
 </body>
 
 </html>

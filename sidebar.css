@@ -1,13 +1,73 @@
+/* When the user enables "Sidebar occupies space" we should only change the
+   sidebar positioning (so it occupies layout space) while the sidebar is
+   actually visible. Otherwise the setting would keep the sidebar stuck on
+   screen even when the user hid it. */
+/* Only position the sidebar into the layout when it's static, visible,
+   AND actually shown (has the .show class). This prevents the "occupies
+   space" option from forcing the sidebar on-screen when the user hides it. */
+body.sidebar-static.sidebar-visible .sidebar.left.show {
+  position: absolute;
+  left: 0;
+  z-index: 1;
+}
+
+/* Same behavior for right-side placement */
+body.sidebar-static.sidebar-visible .sidebar.right.show {
+  position: absolute;
+  right: 0;
+  z-index: 1;
+}
+
+/* Only shift main content when the sidebar is both set to occupy space and
+   the sidebar is currently visible/open. This keeps the "occupies space"
+   checkbox persistent without interfering with closing the sidebar. */
+body.sidebar-static.sidebar-visible main {
+  /* Default: when sidebar is static and visible we shift main depending on side */
+  margin-left: 330px;
+}
+
+/* If the sidebar is on the right and static+visible, shift the main content to the right */
+body.sidebar-static.sidebar-visible.sidebar-right main {
+  margin-left: 0;
+  margin-right: 330px;
+}
 .sidebar {
   position: fixed;
   top: 0;
   width: 330px;
-  height: 100%;
+  /* make the sidebar occupy the full viewport height and scroll internally */
+  height: 100vh;
+  overflow-y: auto;
   background-color: #222222;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   z-index: 999;
   transition: left 0.1s ease, right 0.1s ease;
   color: white;
+}
+
+/* Menu toggle button placed outside the sidebar so it's visible when closed */
+.menu-toggle-btn {
+  position: fixed;
+  top: 12px;
+  z-index: 1001;
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: linear-gradient(#333, #111);
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  /* default to left side */
+  left: 12px;
+}
+
+.menu-toggle-btn:hover {
+  box-shadow: 0 0 6px rgba(255,255,255,0.06);
 }
 
 .sidebar.left {
@@ -28,10 +88,29 @@
   }
 }
 
+/* Position the toggle button to the right side when sidebar is on the right */
+body.sidebar-right .menu-toggle-btn {
+  left: auto;
+  right: 12px;
+}
+
+/* When the sidebar is visible and on the left, move the toggle button to the right edge of the sidebar
+   so it sits outside the menu (avoids covering the open menu). */
+body.sidebar-visible.sidebar-left .menu-toggle-btn {
+  left: 330px; /* place immediately to the right of the sidebar */
+}
+
+/* When the sidebar is visible and on the right, move the toggle button to the left edge of the sidebar
+   so it sits outside the open right-side menu. */
+body.sidebar-visible.sidebar-right .menu-toggle-btn {
+  right: 330px; /* place immediately to the left of the right sidebar */
+}
+
 .sidebar .slider {
   width: 100%;
   margin: 5px 0px 0px 0px;
 }
+
 
 .center-text {
   text-align: center;
@@ -55,6 +134,17 @@
   border-color: yellow;
 }
 
+.background-hex {
+  display: inline-block;
+  width: 90px;
+  margin-left: 8px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  border: 1px solid #444;
+  background: #111;
+  color: white;
+}
+
 .setting {
   padding: 10px 20px;
   border: 2px solid #505050;
@@ -74,20 +164,67 @@
 .sidebar input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  margin-right: 10px;
+  margin-right: 0px;
   margin-left: 0px;
 }
 
 .checkbox-container label {
+  display: block;       /* let the label fill available horizontal space */
+  flex: 1 1 auto;       /* stretch inside the flex container */
   align-content: center;
+  cursor: pointer;      /* show pointer to indicate clickability */
+  padding: 6px 8px;     /* increase clickable area */
+  user-select: none;    /* avoid accidentally selecting text when clicking */
+}
+
+.sidebar button {
+  /* Keep button typography consistent with the rest of the app */
+  font-family: inherit;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: linear-gradient(#2b2b2b, #111);
+  color: #ffffff;
+  transition: background-color 0.12s ease, transform 0.06s ease, box-shadow 0.12s ease;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.3);
   cursor: pointer;
 }
 
-.sidebar button, .sidebar input {
+.sidebar button:hover {
+  /* A clear hover state: slightly blue and lifted */
+  background: linear-gradient(#3b82f6, #1f6fe6);
+  color: #ffffff;
+  box-shadow: 0 3px 8px rgba(59,130,246,0.18);
+  transform: translateY(-1px);
+}
+
+.sidebar button:active {
+  /* Pressed state */
+  background: linear-gradient(#2563eb, #1e4fd6);
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.sidebar button:focus {
+  outline: 2px solid rgba(59,130,246,0.6);
+  outline-offset: 2px;
+}
+
+/* Make input-based buttons inherit cursor and font where applicable */
+.sidebar input[type="button"],
+.sidebar input[type="submit"] {
   cursor: pointer;
+  font-family: inherit;
 }
 
 .checkbox-container {
   display: flex;
   align-items: center;
+}
+
+.slider-container.active {
+  background-color: #40e27b24; /* subtle blue tint */
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: inset 0 0 0 1px rgba(59,130,246,0.04);
 }

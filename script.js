@@ -1,11 +1,17 @@
 var currentCard = null; // global variable to store currently hovered card
 
 const main = document.querySelector('main');
+// Keep a dedicated cards wrapper so we can avoid changing the font-size on the
+// scrolling <main> element (setting font-size:0 on the scroll container can
+// unexpectedly change mousewheel/scroll behavior in some environments).
+const cardsContainer = document.getElementById('cards') || (function(){
+    const el = document.createElement('div'); el.id = 'cards'; main.appendChild(el); return el;
+})();
 
 document.addEventListener('dragover', dragOverHandler, false)
 document.addEventListener('drop', dropHandler, false)
-document.addEventListener('mouseover', mouseOverHandler, false) // new event listener
-document.addEventListener('keydown', keyDownHandler, false) // new event listener
+document.addEventListener('mouseover', mouseOverHandler, false)
+document.addEventListener('keydown', keyDownHandler, false)
 
 async function dropHandler(ev) {
     if (ev.target.closest('.sidebar')) return;
@@ -76,17 +82,60 @@ function dragOverHandler(ev) {
 
 function createDOMElements(fileURL, fileName, fileType) {
     const autoplayEnabled = document.getElementById('autoplay').checked;
-    const mediaElement = fileType === 'image'
-        ? `<img src="${fileURL}" class="card-picture" />`
-        : `<video src="${fileURL}" class="card-picture" loop controls disablePictureInPicture muted ${autoplayEnabled ? 'autoplay' : ''}></video>`;
 
-    var div = `
-        <div class="card">
-            ${mediaElement}
-            <p class="card-text">${fileName}</p>
-        </div>
-    `;
-    main.appendChild(htmlToElement(div));
+    // Build DOM elements instead of raw HTML so we can attach load/metadata
+    // handlers and apply the current active sizing to newly created media.
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    let media;
+    if (fileType === 'image') {
+        media = document.createElement('img');
+        media.src = fileURL;
+        media.className = 'card-picture';
+
+        // Apply active sizing if available. If scaling is active, wait for
+        // the image to load to use naturalWidth.
+        const active = window.__activeSizing || { mode: 'pixel', value: parseFloat(document.getElementById('scale-value').innerText) };
+        if (active.mode === 'pixel') {
+            media.style.width = `${active.value}px`;
+        } else {
+            media.addEventListener('load', function () {
+                try {
+                    if (media.naturalWidth) media.style.width = `${media.naturalWidth * Number(active.value)}px`;
+                } catch (e) { /* ignore */ }
+            });
+        }
+    } else {
+        media = document.createElement('video');
+        media.src = fileURL;
+        media.className = 'card-picture';
+        media.loop = true;
+        media.controls = true;
+        media.disablePictureInPicture = true;
+        media.muted = true;
+        if (autoplayEnabled) media.autoplay = true;
+
+        const active = window.__activeSizing || { mode: 'pixel', value: parseFloat(document.getElementById('scale-value').innerText) };
+        if (active.mode === 'pixel') {
+            media.style.width = `${active.value}px`;
+        } else {
+            // Use loadedmetadata to get intrinsic video width
+            media.addEventListener('loadedmetadata', function () {
+                try {
+                    if (media.videoWidth) media.style.width = `${media.videoWidth * Number(active.value)}px`;
+                } catch (e) { /* ignore */ }
+            });
+        }
+    }
+
+    const p = document.createElement('p');
+    p.className = 'card-text';
+    p.textContent = fileName;
+
+    card.appendChild(media);
+    card.appendChild(p);
+    cardsContainer.appendChild(card);
 }
 
 function htmlToElement(html) {
@@ -115,3 +164,79 @@ function removeInfoBox() {
     if (!infoBox) return;
     infoBox.remove();
 }
+
+// --- File/Folder Dialog Logic ---
+function triggerFileDialog() {
+    const fileInput = document.getElementById('file-input');
+    if (fileInput) fileInput.value = '';
+    fileInput.click();
+}
+
+function handleFileInputChange(ev) {
+    removeInfoBox();
+    const files = Array.from(ev.target.files);
+    files.forEach(handleFile);
+}
+
+function toggleSettingsMenu() {
+    const sidebar = document.getElementById('sidebar');
+    const menuToggle = document.getElementById('menu-toggle');
+    if (!sidebar || !menuToggle) return;
+    // If the sidebar is currently shown, the user is about to hide it.
+    // Toggle visibility. We no longer force-disable the 'sidebar-static'
+    // checkbox. Instead, track a 'sidebar-visible' class on the body so CSS
+    // layout shifts only occur when the sidebar is both static and visible.
+    const willShow = !sidebar.classList.contains('show');
+
+    sidebar.classList.toggle('show');
+    menuToggle.textContent = sidebar.classList.contains('show') ? '<' : '>';
+
+    // Update the body helper class used for layout rules.
+    if (willShow) {
+        document.body.classList.add('sidebar-visible');
+    } else {
+        document.body.classList.remove('sidebar-visible');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Info box click opens file dialog
+    const infoBoxTop = document.getElementById('info-box-top');
+    if (infoBoxTop) {
+        infoBoxTop.addEventListener('click', triggerFileDialog);
+    }
+
+    const infoBoxBottom = document.getElementById('info-box-bottom');
+    if (infoBoxBottom) {
+        infoBoxBottom.addEventListener('click', toggleSettingsMenu);
+    }
+
+    // File input change handler
+    const fileInput = document.getElementById('file-input');
+    if (fileInput) {
+        fileInput.addEventListener('change', handleFileInputChange);
+    }
+    // Menu toggle button logic
+    const menuToggle = document.getElementById('menu-toggle');
+    if (menuToggle) {
+        // Remove any previous event listeners if needed (not strictly necessary in DOMContentLoaded)
+        menuToggle.onclick = toggleSettingsMenu;
+        // Initialize symbol
+        const sidebarEl = document.getElementById('sidebar');
+        menuToggle.textContent = (sidebarEl && sidebarEl.classList.contains('show')) ? '<' : '>';
+    }
+    // Hide menu button checkbox logic
+    const hideMenuBtnCheckbox = document.getElementById('hide-menu-btn');
+    if (hideMenuBtnCheckbox && menuToggle) {
+        hideMenuBtnCheckbox.addEventListener('change', function() {
+            menuToggle.style.display = this.checked ? 'none' : '';
+        });
+    }
+    // Open file button in menu
+    const openFileBtn = document.getElementById('open-file-btn');
+    if (openFileBtn) {
+        openFileBtn.addEventListener('click', function() {
+            triggerFileDialog();
+        });
+    }
+});

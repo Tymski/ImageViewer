@@ -1,5 +1,6 @@
 :root {
     --card-padding: 10px;
+    --filename-size: 24px;
 }
 
 html,
@@ -36,7 +37,7 @@ body {
 }
 
 .card-text {
-    font-size: 24px;
+    font-size: var(--filename-size);
     color: whitesmoke;
 }
 
@@ -50,6 +51,16 @@ body {
     text-wrap: nowrap;
 }
 
+/* When filenames are displayed below media, make the text flow as a normal block */
+body.filenames-below .card-text {
+    position: static;
+    background-color: transparent;
+    color: whitesmoke;
+    font-weight: normal;
+    padding-top: 6px;
+    display: block;
+}
+
 .point-filter {
     image-rendering: pixelated;
 }
@@ -61,7 +72,7 @@ body {
     transform: translate(-50%, -50%);
     border: 1px solid rgb(196, 196, 196);
     background-color: rgba(55, 55, 55, 0.9);
-    padding: 10px 40px 30px;
+    padding: 0;
     border-radius: 10px;
     box-shadow: 0 4px -6px rgba(0, 0, 0, 0.1);
     max-width: 80%;
@@ -74,8 +85,61 @@ body {
     }
 }
 
+#info-box-top,
+#info-box-bottom {
+    padding: 10px 40px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#info-box-top:hover,
+#info-box-bottom:hover {
+    background-color: rgba(66, 66, 66, 0.9);
+}
+
+#info-box-top {
+    border-bottom: 1px solid rgb(196, 196, 196);
+    border-radius: 10px 10px 0 0;
+    padding-bottom: 30px;
+}
+
+#info-box-bottom {
+    border-radius: 0 0 10px 10px;
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
+
 .center-content {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* Make main area fill the viewport and scroll independently of the sidebar */
+main {
+    position: relative;
+    min-height: 100vh;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 0;
+}
+
+/* Collapse inline-block whitespace gaps inside the cards container without
+   changing the font-size of the scrolling <main> element (preserves scroll
+   delta behavior). */
+#cards {
+    font-size: 0;
+}
+
+body.hide-filenames .card-text{
+    display: none;
+    visibility: hidden;
+}
+
+/* When sidebar occupies space, shift the main content so it doesn't sit under the sidebar */
+/* Only shift main content when the sidebar is both set to occupy space AND
+   currently visible/open. This prevents the setting from interfering with
+   closing the sidebar while keeping the checkbox persistent. */
+body.sidebar-static.sidebar-visible main {
+    margin-left: 330px;
 }
