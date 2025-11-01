@@ -96,7 +96,7 @@ function createDOMElements(fileURL, fileName, fileType) {
 
         // Apply active sizing if available. If scaling is active, wait for
         // the image to load to use naturalWidth.
-        const active = window.__activeSizing || { mode: 'pixel', value: parseFloat(document.getElementById('scale-value').innerText) };
+    const active = window.__activeSizing || { mode: 'scale', value: parseFloat(document.getElementById('image-scale-value') ? document.getElementById('image-scale-value').innerText : (document.getElementById('image-scale-slider') ? document.getElementById('image-scale-slider').value : 1)) };
         if (active.mode === 'pixel') {
             media.style.width = `${active.value}px`;
         } else {
@@ -116,7 +116,7 @@ function createDOMElements(fileURL, fileName, fileType) {
         media.muted = true;
         if (autoplayEnabled) media.autoplay = true;
 
-        const active = window.__activeSizing || { mode: 'pixel', value: parseFloat(document.getElementById('scale-value').innerText) };
+    const active = window.__activeSizing || { mode: 'scale', value: parseFloat(document.getElementById('image-scale-value') ? document.getElementById('image-scale-value').innerText : (document.getElementById('image-scale-slider') ? document.getElementById('image-scale-slider').value : 1)) };
         if (active.mode === 'pixel') {
             media.style.width = `${active.value}px`;
         } else {

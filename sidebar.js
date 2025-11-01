@@ -33,8 +33,8 @@ const autoplayCheckbox = document.getElementById('autoplay');
 // Track which sizing control was last used. Accessible by other scripts when
 // creating new media so imported items follow the 'active' sizing.
 window.__activeSizing = {
-    mode: 'pixel', // 'pixel' or 'scale'
-    value: parseFloat(pixelSliderValue ? pixelSliderValue.innerText : (pixelSizeSlider ? pixelSizeSlider.value : 768))
+    mode: 'scale', // 'pixel' or 'scale' (default to scale)
+    value: parseFloat(imageScaleValue ? imageScaleValue.innerText : (imageScaleSlider ? imageScaleSlider.value : 1))
 };
 
 // Helper: toggle visual active marker on the slider containers
@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 filenameSizeValue: document.getElementById('filename-size-value')?.innerText || '24',
                 backgroundHex: document.getElementById('background-hex')?.value || '#191919',
                 sidebarRight: document.querySelector('.sidebar')?.classList.contains('right') || false,
-                activeSizing: window.__activeSizing || { mode: 'pixel', value: 768 }
+                activeSizing: window.__activeSizing || { mode: 'scale', value: 1 }
             };
         } catch (e) { return {}; }
     }
