@@ -26,6 +26,22 @@ body {
     line-height: 0;
 }
 
+/* Allow optional maximum card dimensions via CSS variables. If not set,
+   the fallback 'none' results in no constraint. */
+.card {
+    max-width: var(--card-max-width, none);
+    max-height: var(--card-max-height, none);
+}
+
+/* Ensure media inside the card doesn't overflow the card's bounds. The
+   explicit sizing logic still sets element widths; this ensures the visual
+   card constraints are respected. */
+.card-picture {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+}
+
 .hidden {
     visibility: hidden;
     display: none;

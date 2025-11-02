@@ -40,15 +40,24 @@
             <input type="range" min="0" max="50" value="10" class="slider" id="padding-slider">
         </div>
         <div class="slider-container setting">
-            <label for="filename-size-slider">Filename Size:</label> <span class="number" id="filename-size-value" contenteditable="true">24</span>px
-            <input type="range" min="5" max="72" value="24" class="slider" id="filename-size-slider">
+            <label for="max-width-slider">Max Card Width:</label> <span class="number" id="max-width-value" contenteditable="true">none</span>
+            <input type="range" min="0" max="5000" value="0" class="slider" id="max-width-slider">
+        </div>
+        <div class="slider-container setting">
+            <label for="max-height-slider">Max Card Height:</label> <span class="number" id="max-height-value" contenteditable="true">none</span>
+            <input type="range" min="0" max="5000" value="0" class="slider" id="max-height-slider">
         </div>
         <div class="checkbox-container setting">
             <input type="checkbox" id="filenames" onchange="toggleFilenames(this)">
             <label for="filenames">Show File<u>n</u>ames</label>
         </div>
         <div class="checkbox-container setting" id="filename-below-setting">
-            <input type="checkbox" id="filename-below"><label for="filename-below">Display filenames below</label>
+            <input type="checkbox" id="filename-below">
+            <label for="filename-below">Display filenames below</label>
+        </div>
+        <div class="slider-container setting">
+            <label for="filename-size-slider">Filename Size:</label> <span class="number" id="filename-size-value" contenteditable="true">24</span>px
+            <input type="range" min="5" max="72" value="24" class="slider" id="filename-size-slider">
         </div>
         <div class="checkbox-container setting">
             <input type="checkbox" id="sidebar-static" onchange="toggleSidebarStatic(this)">

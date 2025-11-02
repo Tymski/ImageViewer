@@ -24,6 +24,10 @@ const paddingSlider = document.getElementById('padding-slider');
 const paddingValue = document.getElementById('padding-value');
 const filenameSizeSlider = document.getElementById('filename-size-slider');
 const filenameSizeValue = document.getElementById('filename-size-value');
+const maxWidthSlider = document.getElementById('max-width-slider');
+const maxWidthValue = document.getElementById('max-width-value');
+const maxHeightSlider = document.getElementById('max-height-slider');
+const maxHeightValue = document.getElementById('max-height-value');
 const body = document.querySelector('body');
 const root = document.querySelector(':root');
 const switchSidesBtn = document.getElementById('switch-sides');
@@ -133,6 +137,46 @@ function changeFilenameSize(size) {
     root.style.setProperty('--filename-size', size + 'px');
     if (filenameSizeSlider) filenameSizeSlider.value = size;
     if (filenameSizeValue) filenameSizeValue.innerText = size;
+}
+
+// Max card width/height controls. A slider value of 0 means "none" (no limit).
+if (maxWidthSlider) maxWidthSlider.addEventListener('input', function () { changeMaxWidth(this.value) });
+if (maxWidthValue) maxWidthValue.addEventListener('blur', function (event) { changeMaxWidth(event.target.innerText) });
+function changeMaxWidth(value) {
+    try {
+        if (typeof value === 'string' && value.trim().toLowerCase() === 'none') value = '0';
+        value = parseFloat(value);
+        if (isNaN(value)) return;
+        if (value === 0) {
+            // remove constraint
+            root.style.removeProperty('--card-max-width');
+            if (maxWidthValue) maxWidthValue.innerText = 'none';
+            if (maxWidthSlider) maxWidthSlider.value = 0;
+        } else {
+            root.style.setProperty('--card-max-width', value + 'px');
+            if (maxWidthValue) maxWidthValue.innerText = value;
+            if (maxWidthSlider) maxWidthSlider.value = value;
+        }
+    } catch (e) { /* ignore */ }
+}
+
+if (maxHeightSlider) maxHeightSlider.addEventListener('input', function () { changeMaxHeight(this.value) });
+if (maxHeightValue) maxHeightValue.addEventListener('blur', function (event) { changeMaxHeight(event.target.innerText) });
+function changeMaxHeight(value) {
+    try {
+        if (typeof value === 'string' && value.trim().toLowerCase() === 'none') value = '0';
+        value = parseFloat(value);
+        if (isNaN(value)) return;
+        if (value === 0) {
+            root.style.removeProperty('--card-max-height');
+            if (maxHeightValue) maxHeightValue.innerText = 'none';
+            if (maxHeightSlider) maxHeightSlider.value = 0;
+        } else {
+            root.style.setProperty('--card-max-height', value + 'px');
+            if (maxHeightValue) maxHeightValue.innerText = value;
+            if (maxHeightSlider) maxHeightSlider.value = value;
+        }
+    } catch (e) { /* ignore */ }
 }
 
 switchSidesBtn.addEventListener('click', function () {
@@ -255,6 +299,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 autoplay: document.getElementById('autoplay')?.checked || false,
                 filenameSize: document.getElementById('filename-size-slider')?.value || '24',
                 filenameSizeValue: document.getElementById('filename-size-value')?.innerText || '24',
+                maxCardWidth: document.getElementById('max-width-slider')?.value || '0',
+                maxCardWidthValue: document.getElementById('max-width-value')?.innerText || 'none',
+                maxCardHeight: document.getElementById('max-height-slider')?.value || '0',
+                maxCardHeightValue: document.getElementById('max-height-value')?.innerText || 'none',
                 backgroundHex: document.getElementById('background-hex')?.value || '#191919',
                 sidebarRight: document.querySelector('.sidebar')?.classList.contains('right') || false,
                 activeSizing: window.__activeSizing || { mode: 'scale', value: 1 }
@@ -310,6 +358,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (fsSlider) fsSlider.value = settings.filenameSize;
                 if (fsSpan) fsSpan.innerText = v;
                 changeFilenameSize(v);
+            }
+            if (typeof settings.maxCardWidth !== 'undefined' || settings.maxCardWidthValue) {
+                const v = settings.maxCardWidthValue || settings.maxCardWidth;
+                const mwSlider = document.getElementById('max-width-slider');
+                const mwSpan = document.getElementById('max-width-value');
+                if (mwSlider) mwSlider.value = settings.maxCardWidth || 0;
+                if (mwSpan) mwSpan.innerText = v === '0' || v === 0 ? 'none' : v;
+                changeMaxWidth(v);
+            }
+            if (typeof settings.maxCardHeight !== 'undefined' || settings.maxCardHeightValue) {
+                const v = settings.maxCardHeightValue || settings.maxCardHeight;
+                const mhSlider = document.getElementById('max-height-slider');
+                const mhSpan = document.getElementById('max-height-value');
+                if (mhSlider) mhSlider.value = settings.maxCardHeight || 0;
+                if (mhSpan) mhSpan.innerText = v === '0' || v === 0 ? 'none' : v;
+                changeMaxHeight(v);
             }
             if (typeof settings.filenames !== 'undefined') {
                 const f = document.getElementById('filenames');
@@ -372,7 +436,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Wire change listeners for controls so changes auto-save when enabled
     function wireAutoSave() {
-    const ids = ['hide-menu-btn','image-scale-slider','image-scale-value','scale-slider','scale-value','padding-slider','padding-value','filename-size-slider','filename-size-value','filenames','filename-below','sidebar-static','point-filter','center-images','autoplay','background-hex','switch-sides'];
+    const ids = ['hide-menu-btn','image-scale-slider','image-scale-value','scale-slider','scale-value','padding-slider','padding-value','filename-size-slider','filename-size-value','max-width-slider','max-width-value','max-height-slider','max-height-value','filenames','filename-below','sidebar-static','point-filter','center-images','autoplay','background-hex','switch-sides'];
         ids.forEach(id => {
             const el = document.getElementById(id);
             if (!el) return;
