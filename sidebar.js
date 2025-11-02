@@ -485,6 +485,27 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } catch (e) { console.warn('initPersistence err', e); }
     })();
+    // --- Collapsible groups (headers show ASCII triangle, expanded by default) ---
+    function toggleGroup(groupEl, headerEl, triEl) {
+        const collapsed = groupEl.classList.toggle('collapsed');
+        if (triEl) triEl.textContent = collapsed ? '▶' : '▾';
+        if (headerEl) headerEl.setAttribute('aria-expanded', (!collapsed).toString());
+    }
+
+    const groupHeaders = document.querySelectorAll('.group-header');
+    groupHeaders.forEach(header => {
+        const groupEl = header.parentElement;
+        const tri = header.querySelector('.triangle');
+        // click to toggle
+        header.addEventListener('click', () => toggleGroup(groupEl, header, tri));
+        // keyboard activation (Enter / Space)
+        header.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleGroup(groupEl, header, tri);
+            }
+        });
+    });
     // Ensure 'Sidebar occupies space' is OFF by default on load
     // NOTE: we intentionally do NOT force the 'sidebar-static' setting here so
     // the checkbox state can persist or be controlled by the UI. If it's

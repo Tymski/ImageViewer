@@ -228,3 +228,37 @@ body.sidebar-visible.sidebar-right .menu-toggle-btn {
   transition: background-color 0.15s ease, box-shadow 0.15s ease;
   box-shadow: inset 0 0 0 1px rgba(59,130,246,0.04);
 }
+
+/* Groups for settings: header + content. Content has no extra padding. */
+.group {
+  margin: 4px 6px;
+  border: 1px solid #505050;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.group-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #171717;
+  color: #fff;
+  padding: 8px 12px;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 600;
+}
+.group-header:focus {
+  outline: 2px solid rgba(59,130,246,0.5);
+}
+.group-header .triangle {
+  width: 18px;
+  display: inline-block;
+  text-align: center;
+  font-family: monospace;
+}
+.group-content {
+  padding: 0; /* explicitly no extra padding inside the group */
+}
+.group.collapsed .group-content {
+  display: none;
+}
