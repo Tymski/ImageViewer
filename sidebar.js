@@ -488,7 +488,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Collapsible groups (headers show ASCII triangle, expanded by default) ---
     function toggleGroup(groupEl, headerEl, triEl) {
         const collapsed = groupEl.classList.toggle('collapsed');
-        if (triEl) triEl.textContent = collapsed ? '▶' : '▾';
+        if (triEl) {
+            // Use the right-pointing triangle glyph as the base and rotate via CSS
+            triEl.textContent = '▶';
+            triEl.classList.toggle('right', collapsed);
+            triEl.classList.toggle('down', !collapsed);
+            triEl.classList.remove('left');
+        }
         if (headerEl) headerEl.setAttribute('aria-expanded', (!collapsed).toString());
     }
 
@@ -496,6 +502,15 @@ document.addEventListener('DOMContentLoaded', function() {
     groupHeaders.forEach(header => {
         const groupEl = header.parentElement;
         const tri = header.querySelector('.triangle');
+        // Initialize triangle glyph and rotation class based on current collapsed state
+        if (tri) {
+            tri.textContent = '▶';
+            if (groupEl.classList.contains('collapsed')) {
+                tri.classList.add('right');
+            } else {
+                tri.classList.add('down');
+            }
+        }
         // click to toggle
         header.addEventListener('click', () => toggleGroup(groupEl, header, tri));
         // keyboard activation (Enter / Space)

@@ -256,6 +256,15 @@ body.sidebar-visible.sidebar-right .menu-toggle-btn {
   text-align: center;
   font-family: monospace;
 }
+/* Base triangle rotation rules: use a single '▶' glyph and rotate it for other directions */
+.triangle {
+  display: inline-block;
+  transform-origin: center;
+  transition: transform 0.12s ease;
+}
+.triangle.right { transform: rotate(0deg); }
+.triangle.down { transform: rotate(90deg); }
+.triangle.left { transform: rotate(180deg); }
 .group-content {
   padding: 0; /* explicitly no extra padding inside the group */
 }

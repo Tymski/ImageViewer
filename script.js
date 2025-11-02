@@ -189,7 +189,18 @@ function toggleSettingsMenu() {
     const willShow = !sidebar.classList.contains('show');
 
     sidebar.classList.toggle('show');
-    menuToggle.textContent = sidebar.classList.contains('show') ? '<' : '>';
+    // Update the menu toggle triangle using the right-pointing glyph and rotate via CSS
+    const tri = menuToggle.querySelector('.menu-toggle-triangle');
+    if (tri) {
+        tri.textContent = '▶';
+        if (sidebar.classList.contains('show')) {
+            tri.classList.remove('right','down');
+            tri.classList.add('left');
+        } else {
+            tri.classList.remove('left','down');
+            tri.classList.add('right');
+        }
+    }
 
     // Update the body helper class used for layout rules.
     if (willShow) {
@@ -223,7 +234,17 @@ document.addEventListener('DOMContentLoaded', function() {
         menuToggle.onclick = toggleSettingsMenu;
         // Initialize symbol
         const sidebarEl = document.getElementById('sidebar');
-        menuToggle.textContent = (sidebarEl && sidebarEl.classList.contains('show')) ? '<' : '>';
+        const triInit = menuToggle.querySelector('.menu-toggle-triangle');
+        if (triInit) {
+            triInit.textContent = '▶';
+            if (sidebarEl && sidebarEl.classList.contains('show')) {
+                triInit.classList.remove('right','down');
+                triInit.classList.add('left');
+            } else {
+                triInit.classList.remove('left','down');
+                triInit.classList.add('right');
+            }
+        }
     }
     // Hide menu button checkbox logic
     const hideMenuBtnCheckbox = document.getElementById('hide-menu-btn');

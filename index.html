@@ -15,11 +15,11 @@
 
 <body class="hide-filenames">
     <!-- Menu Toggle Button (moved outside the sidebar so it's visible when the menu is closed) -->
-    <button id="menu-toggle" class="menu-toggle-btn" title="Toggle Menu" aria-label="Toggle Menu">&gt;</button>
+    <button id="menu-toggle" class="menu-toggle-btn" title="Toggle Menu" aria-label="Toggle Menu"><span class="triangle menu-toggle-triangle">▶</span></button>
     <div class="sidebar left" id="sidebar">
         <!-- Group 1: Scale & Limits -->
         <div class="group" id="group-1">
-            <div class="group-header" data-group="1" role="button" aria-expanded="true" tabindex="0"><span class="triangle">▾</span> Scale & Limits</div>
+            <div class="group-header" data-group="1" role="button" aria-expanded="true" tabindex="0"><span class="triangle">▶</span> Scale & Limits</div>
             <div class="group-content">
                 <div class="slider-container setting">
                     <label for="image-scale-slider">Image Scale:</label> <span class="number" id="image-scale-value" contenteditable="true">1</span>x
@@ -42,7 +42,7 @@
 
         <!-- Group 2: Layout & Appearance -->
         <div class="group" id="group-2">
-            <div class="group-header" data-group="2" role="button" aria-expanded="true" tabindex="0"><span class="triangle">▾</span> Layout & Appearance</div>
+            <div class="group-header" data-group="2" role="button" aria-expanded="true" tabindex="0"><span class="triangle">▶</span> Layout & Appearance</div>
             <div class="group-content">
                 <div class="slider-container setting">
                     <label for="padding-slider">Padding:</label> <span class="number" id="padding-value" contenteditable="true">10</span>px
@@ -72,7 +72,7 @@
 
         <!-- Group 3: Filenames -->
         <div class="group" id="group-3">
-            <div class="group-header" data-group="3" role="button" aria-expanded="true" tabindex="0"><span class="triangle">▾</span> Filenames</div>
+            <div class="group-header" data-group="3" role="button" aria-expanded="true" tabindex="0"><span class="triangle">▶</span> Filenames</div>
             <div class="group-content">
                 <div class="checkbox-container setting">
                     <input type="checkbox" id="filenames" onchange="toggleFilenames(this)">
@@ -91,7 +91,7 @@
 
         <!-- Group 4: Videos -->
         <div class="group" id="group-4">
-            <div class="group-header" data-group="4" role="button" aria-expanded="true" tabindex="0"><span class="triangle">▾</span> Videos</div>
+            <div class="group-header" data-group="4" role="button" aria-expanded="true" tabindex="0"><span class="triangle">▶</span> Videos</div>
             <div class="group-content">
                 <div class="checkbox-container setting">
                     <input type="checkbox" id="autoplay" onchange="toggleAutoplay(this)">
@@ -105,7 +105,7 @@
 
         <!-- Group 5: Menu & Behavior -->
         <div class="group" id="group-5">
-            <div class="group-header" data-group="5" role="button" aria-expanded="true" tabindex="0"><span class="triangle">▾</span> Menu & Behavior</div>
+            <div class="group-header" data-group="5" role="button" aria-expanded="true" tabindex="0"><span class="triangle">▶</span> Menu & Behavior</div>
             <div class="group-content">
                 <div class="checkbox-container setting">
                     <input type="checkbox" id="hide-menu-btn" onchange="toggleMenuButton(this)">
@@ -127,7 +127,7 @@
 
         <!-- Group 6: Other -->
         <div class="group" id="group-6">
-            <div class="group-header" data-group="6" role="button" aria-expanded="true" tabindex="0"><span class="triangle">▾</span> Other</div>
+            <div class="group-header" data-group="6" role="button" aria-expanded="true" tabindex="0"><span class="triangle">▶</span> Other</div>
             <div class="group-content">
                 <div class="setting">
                     <button id="open-file-btn" class="open-file-btn">Open Files/Folders</button>
